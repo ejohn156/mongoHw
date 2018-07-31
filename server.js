@@ -7,6 +7,8 @@ var request = require("request")
 
 var app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
