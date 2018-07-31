@@ -13,6 +13,7 @@ app.set("view engine", "handlebars");
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
+
 var db = require("./models");
 
 app.get("/scrapedData", function (req, res) {
@@ -31,7 +32,6 @@ app.get("/scrapedData", function (req, res) {
       });
     });
     results.forEach(function (element) {
-      
       db.Article.create(element)
         .then(function (dbArticle) {
           console.log(dbArticle);
