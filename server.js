@@ -17,7 +17,7 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 var db = require("./models");
-
+var PORT = process.env.PORT || 3000
 app.get("/scrapedData", function (req, res) {
   request("https://www.panthers.com/news/", function (error, response, html) {
     var $ = cheerio.load(html);
@@ -98,7 +98,6 @@ app.delete("/ind/:commentId", function(req,res){
 })
 
 
-app.listen(3000, function () {
-  console.log("App running on port 3000!");
-});
-
+app.listen(PORT, function(){
+  console.log("App running on port " + PORT + "!")
+})
