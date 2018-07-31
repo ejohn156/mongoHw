@@ -1,0 +1,101 @@
+<style>
+    .container {
+        background-color: silver;
+    }
+
+    #title {
+        color: rgb(0, 133, 202);
+
+        text-align: center;
+        font-size: 45px;
+    }
+
+    #summary {
+        color: rgb(44, 41, 41);
+
+        font-size: 30px;
+    }
+
+    #comments {
+        font-size: 20px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 mt-4">
+            <h2 id="title">{{article.title}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+
+            <p id="summary">{{article.summary}}</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <ul>
+                <h3>comments</h3>
+                {{#if article.comments}} {{#each article.comments}}
+                <li id="comments"><button class="del" data-id={{this._id}}>X</button>{{this.title}}: {{this.body}}</li>
+                {{/each}} {{else}}
+                <p>there are currently no comments</p>
+                {{/if}}
+            </ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 mt-5">
+            <h3>Leave a Comment</h3>
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Title</label>
+                    <input type="input" class="form-control" id="comTitle" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Body</label>
+                    <textarea class="form-control" id="comBody" rows="3"></textarea>
+                </div>
+                <button type="submit" id="sub" data-id={{article._id}}>Submit</button>
+            </form>
+            <a href="https://www.panthers.com{{article.link}}">https://www.panthers.com{{article.link}}</a>
+        </div>
+    </div>
+</div>
+<script>
+    $("#sub").click(function (event) {
+        
+        var thisId = $(this).attr("data-id")
+        
+        $.ajax({
+            method: "POST",
+            url: "/ind/" + thisId,
+            data: {
+                title: $("#comTitle").val().trim(),
+                body: $("#comBody").val().trim()
+            }
+        })
+            .then(function (data) {
+                console.log(data)
+                $("#comBody").val("")
+                $("#comTitle").val("")
+            })
+        setTimeout(function () { location.reload() }, 100)
+    })
+
+    $(".del").click(function(event){
+        var id = $(this).attr("data-id")
+    $.ajax("/ind/"+id, {
+        method: "DELETE",
+    }).then(function(){
+        
+    })
+    setTimeout(location.reload(),100)
+    })
+</script>

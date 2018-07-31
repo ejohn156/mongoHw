@@ -1,0 +1,14 @@
+{{#each findResults}}
+
+<button class="art" data-id={{this._id}}>view</button><h3>{{this.title}}</h3>
+<p>{{this.summary}}</p>
+<a href="https://www.panthers.com{{this.link}}">https://www.panthers.com{{this.link}}</a>
+<br>
+{{/each}}
+<script>
+    $(".art").click(function(event){
+        event.preventDefault()
+        var id = $(this).attr("data-id")
+        location.replace("/ind/"+id)
+    })
+</script>
