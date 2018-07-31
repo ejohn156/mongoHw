@@ -1,7 +1,7 @@
 var express = require("express")
 var exphbs = require("express-handlebars")
 var mongoose = require("mongoose")
-var body = require("body-parser")
+var bodyParser = require("body-parser")
 var cheerio = require("cheerio")
 var request = require("request")
 
@@ -75,7 +75,7 @@ app.get("/ind/:id", function (req, res) {
 app.post("/ind/:id", function(req, res){
   console.log(req.body)
   var articleId = req.params.id
-  db.Comments.create({title:"test", body:"test"})
+  db.Comments.create(req.body)
   .then(function(dbComment){
     console.log(dbComment)
     return db.Article.findByIdAndUpdate(articleId, { $push: { comments: dbComment._id } }, { new: true })
